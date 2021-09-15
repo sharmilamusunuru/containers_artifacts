@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-java
+  name: tripviewer
   labels:
-    app: user-java
+    app: tripviewer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-java
+      app: tripviewer
   template:
     metadata:
       labels:
-        app: user-java
+        app: tripviewer
     spec:
       containers:
-      - name: user-java
-        image: registryacs2871.azurecr.io/tripinsights/user-java:1.0
+      - name: tripviewer
+        image: registryacs2871.azurecr.io/tripinsights/tripviewer:1.0
         ports:
         - containerPort: 80
         resources:
@@ -30,12 +30,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-java-svc
-  labels:
-    run: user-java-svc
+  name: tripviewer-lb
 spec:
+  type: LoadBalancer
   ports:
   - port: 80
-    protocol: TCP
   selector:
-    run: user-java
+    app: tripviewer
